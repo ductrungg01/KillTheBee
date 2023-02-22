@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SlowmotionEffect : MonoBehaviour
 {
     public float slowmotionFactor = 0.05f;
     public float slowmotionLength = 3f;
 
-    private float slowmotionLengthRemain;
-    private bool isSlowmotion = false;
+    public float slowmotionLengthRemain;
+    [FormerlySerializedAs("isSlowmotion")] public bool isActive = false;
 
     private void Start()
     {
@@ -19,14 +20,14 @@ public class SlowmotionEffect : MonoBehaviour
     private void Update()
     {
         if (Time.unscaledDeltaTime > 0.2f) return;
-        if (!isSlowmotion) return;
+        if (!isActive) return;
         
         slowmotionLengthRemain -= Time.unscaledDeltaTime;
 
         if (slowmotionLengthRemain <= 0)
         {
             Time.timeScale = 1;
-            isSlowmotion = false;
+            isActive = false;
         }
     }
 
@@ -36,6 +37,6 @@ public class SlowmotionEffect : MonoBehaviour
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         
         slowmotionLengthRemain = slowmotionLength;
-        isSlowmotion = true;
+        isActive = true;
     }
 }

@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +17,14 @@ public class GameManager : MonoBehaviour
     
     [Header("== GAMEPLAY ==")]
     public GameObject playerInstance;
-    public List<GameObject> bees;
+    
+    
+    [FormerlySerializedAs("bees")] [Header("ENEMY")]
+    public GameObject beePrefab;
+    public List<Transform> beePositions;
+
+    [Header("CANVAS")] 
+    public Text slowmotionText;
     
     [Header("EFFECTS")]
     public GameObject slowmotionEffect;
@@ -40,7 +50,9 @@ public class GameManager : MonoBehaviour
 
     async UniTask GameStarting()
     {
-        var effect = slowmotionEffect.AddComponent<SlowmotionEffect>();
+        SpawnEnemy();
+        
+        var effect = slowmotionEffect.GetComponent<SlowmotionEffect>();
         effect.slowmotionLength = startTime;
         
         effect.DoSlowmotionEffect();
@@ -48,11 +60,19 @@ public class GameManager : MonoBehaviour
 
     async UniTask GamePlaying()
     {
-        
+        slowmotionText.text = "";
     }
 
     async UniTask GameEnding()
     {
         
+    }
+
+    void SpawnEnemy()
+    {
+        for (int i = 0; i < beePositions.Count; i++)
+        {
+            Instantiate(beePrefab, beePositions[i].position, Quaternion.identity);
+        }
     }
 }
