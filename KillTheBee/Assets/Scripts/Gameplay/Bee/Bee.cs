@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Bee : MonoBehaviour
 {
-    public int health;
+    private int health;
     public TextMeshProUGUI healthText;
 
     private void Start()
@@ -18,6 +18,12 @@ public class Bee : MonoBehaviour
         }
     }
 
+    public void SetHealth(int health)
+    {
+        this.health = health;
+        this.healthText.text = this.health.ToString();
+    }
+    
     public void Hit()
     {
         health--;
@@ -31,6 +37,6 @@ public class Bee : MonoBehaviour
 
     void Dead()
     {
-        Destroy(gameObject);
+        this.gameObject.SetActive(false);
     }
 }

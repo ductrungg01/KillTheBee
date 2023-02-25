@@ -10,12 +10,7 @@ public class SlowmotionEffect : MonoBehaviour
     public float slowmotionLength = 3f;
 
     public float slowmotionLengthRemain;
-    [FormerlySerializedAs("isSlowmotion")] public bool isActive = false;
-
-    private void Start()
-    {
-
-    }
+    public bool isActive = false;
 
     private void Update()
     {
